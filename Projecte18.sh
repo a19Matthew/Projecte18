@@ -6,7 +6,7 @@ cat <<EOF
 	Utilització: $0 [-d] [-r] [-a] nomUsuari 
 
 	-d Deshabilita l'usuari [Opcional]
-	-r Direcció del host [Opcional]
+	-r Esborra l'usuari [Opcional]
 	-a Fa un backup del home de l'usuari a /archives/user.tar.gz [Opcional]
 
 EOF
@@ -29,6 +29,7 @@ getId(){
 	fi
 }
 
+#Funció que bloqueja l'usuari
 lockUser(){
 	usermod -L $1
 	chage -E0 $1
@@ -36,10 +37,12 @@ lockUser(){
 	echo "Usuari "$1" bloquejat satisfactoriament"
 }
 
+#Esborra l'usuari, la carpeta home i l'email.
 deleteUser(){
 	userdel -r $1
 }
 
+#Fem backup de l'usuari
 backupUser(){
 	userdir=`eval echo ~$1`
 	date=`date +"%y-%m-%d-%s"`
@@ -94,7 +97,7 @@ while getopts ":d:r:a:" o; do
 done
 
 #Aquesta condició es dona si l'usuari no ha escrit
-#la opció -u en la comanda.La variable RE s'utilitza
+#cap opció en la comanda.La variable RE s'utilitza
 #aqui per evitar mostrar aquest error si ja se sap
 #que s'ha passat aquesta opció sense parametre.
 if [ -z $USUARI ] && [ "$RE" != "d" ] && [ "$RE" != "r"  ] && [ "$RE" != "a" ]; then
