@@ -39,6 +39,7 @@ lockUser(){
 #Esborra l'usuari, la carpeta home i l'email.
 deleteUser(){
 	userdel -r $1
+	echo "Usuari "$1" esborrat satisfactoriament"
 }
 
 #Fem backup de l'usuari
