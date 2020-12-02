@@ -13,11 +13,10 @@ EOF
 }
 #Aquesta funció guarda la id de l'usuari.
 getId(){	
-	id=`id -u $1 2>/dev/null`
+	id=`id -u $1`
 	check=$?
 	if [ "$check" == 1 ];then
-		echo "ERROR: L'usuari "$1" no existeix"
-		ERROR=1
+		exit 1
 	fi
 	if [ $id -gt 1000 ];then
 		echo "Usuari "$1" té un id major de 1000"
